@@ -1,7 +1,4 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
 import './App.css'
 
 
@@ -22,6 +19,37 @@ const movies = [
   { id: 4, title: "Iron Man", year: 2008 },
 ]
 
+function SignupForm() {
+  
+
+}
+
+function CharCounter (){
+  const [text,setText] = useState("")
+
+  return (
+    <div>
+      <input 
+      type="text"
+      value = {text}
+      onChange={(e) => setText(e.target.value)}
+      />
+      <p>{text.length} characters typed</p>
+    </div>
+  )
+}
+
+function  Counter() {
+  const [count, setCount] = useState(0)
+  return (
+  <div>
+    <p>Count : {count}</p>
+    <button onClick={()=> setCount(count + 1)}>+</button>
+    <button onClick={()=> setCount(count - 1)}>-</button>
+  </div>
+  )
+}
+
 function MovieCard({ title, year }) {
   return (
     <div>
@@ -34,6 +62,8 @@ function MovieCard({ title, year }) {
 function App() {
   return (
     <div>
+      <CharCounter />
+      <Counter/>
       {movies.map((movie) => (
         <MovieCard key={movie.id} title={movie.title} year={movie.year} />
       ))}
