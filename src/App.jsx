@@ -1,58 +1,202 @@
-import { useState, useEffect } from 'react'
+// function Card({ children }) {
+//   return (
+//     <div style={{ border: '2px solid red', padding: '20px' }}>
+//       {children}
+//     </div>
+//   )
+// }
 
-function PostList() {
-  const [posts, setPosts] = useState([])
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState(null)
+// function App() {
+//   return (
+//     <div>
+//       <Card>
+//         <p>I am inside the card!</p>
+//       </Card>
+//     </div>
+//   )
+// }
 
-  async function fetchPosts() {
-    setLoading(true)   
-    setError(null)        
 
-    try {
-      const res = await fetch('https://jsonplaceholder.typicode.com/posts?_limit=10')
-      if (!res.ok) throw new Error("Server error!")
-      const data = await res.json()
-      setPosts(data)
-    } catch (err) {
-      setError(err.message)
-    } finally {
-      setLoading(false)
-    }
-  }
+// function Card({ title, children }) {
+//   return (
+//     <div style={{ border: '2px solid red', padding: '20px', margin: '10px' }}>
+//       <h3>{title}</h3>
+//       {children}
+//     </div>
+//   )
+// }
 
-  useEffect(() => {
-    fetchPosts()
-  }, [])
+// function App() {
+//   return (
+//     <div>
+//       <Card title="User Info">
+//         <p>Name: Ashish</p>
+//         <p>Role: Developer</p>
+//       </Card>
+//     </div>
+//   )
+// }
 
+// export default App
+
+
+// function Card({ title, children }) {
+//   return (
+//     <div style={{ border: '2px solid red', padding: '20px', margin: '10px' }}>
+//       <h3>{title}</h3>
+//       {children}
+//     </div>
+//   )
+// }
+
+// function App() {
+//   return (
+//     <div>
+//       <Card title="User Info">
+//         <p>Name: Ashish</p>
+//         <p>Role: Developer</p>
+//       </Card>
+
+//       <Card title="Skills">
+//         <p>React</p>
+//         <p>JavaScript</p>
+//         <p>Node.js</p>
+//       </Card>
+
+//       <Card title="Hobbies">
+//         <p>Reading</p>
+//         <p>Gaming</p>
+//         <p>Coding</p>
+//       </Card>
+//     </div>
+//   )
+// }
+
+// export default App
+
+
+// import { useState } from 'react'
+
+// function Card({ title, children }) {
+//   return (
+//     <div style={{ border: '2px solid red', padding: '20px', margin: '10px' }}>
+//       <h3>{title}</h3>
+//       {children}
+//     </div>
+//   )
+// }
+
+// function App() {
+//   const [showModal, setShowModal] = useState(false)
+
+//   return (
+//     <div>
+//       <Card title="User Info">
+//         <p>Name: Ashish</p>
+//         <p>Role: Developer</p>
+//       </Card>
+
+//       <Card title="Skills">
+//         <p>React</p>
+//         <p>JavaScript</p>
+//         <p>Node.js</p>
+//       </Card>
+
+//       <Card title="Hobbies">
+//         <p>Reading</p>
+//         <p>Gaming</p>
+//         <p>Coding</p>
+//       </Card>
+
+//       <button onClick={() => setShowModal(true)}>Open Modal</button>
+
+//       {showModal && (
+//         <div style={{ background: 'blue', padding: '20px' }}>
+//           <p>I am a modal!</p>
+//           <button onClick={() => setShowModal(false)}>Close</button>
+//         </div>
+//       )}
+//     </div>
+//   )
+// }
+
+// export default App
+
+import { useState } from 'react'
+
+function Card({ title, children }) {
   return (
-    <div>
-      <h2>Blog Posts</h2>
-      <button onClick={fetchPosts}>🔄 Refresh</button>
+    <div style={{ border: '2px solid red', padding: '20px', margin: '10px' }}>
+      <h3>{title}</h3>
+      {children}
+    </div>
+  )
+}
 
-      {loading && <p>Loading posts...</p>}
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-
-      {!loading && !error && (
-        <ul>
-          {posts.map(post => (
-            <li key={post.id}>
-              <h3>{post.title}</h3>
-              <p>{post.body}</p>
-            </li>
-          ))}
-        </ul>
-      )}
+function Modal({ children, onClose }) {
+  return (
+    <div style={{
+      position: 'fixed',
+      top: 0, left: 0,
+      width: '100%', height: '100%',
+      backgroundColor: 'rgba(0,0,0,0.7)',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center'
+    }}>
+      <div style={{
+        background: '#16213e',
+        padding: '30px',
+        borderRadius: '10px',
+        minWidth: '300px',
+        color: 'white'
+      }}>
+        {children}
+        <button onClick={onClose}>Close</button>
+      </div>
     </div>
   )
 }
 
 function App() {
+  const [showModal, setShowModal] = useState(false)
+
   return (
     <div>
-      <PostList />
+      <Card title="User Info">
+        <p>Name: Ashish</p>
+        <p>Role: Developer</p>
+      </Card>
+
+      <Card title="Skills">
+        <p>React</p>
+        <p>JavaScript</p>
+        <p>Node.js</p>
+      </Card>
+
+      <Card title="Hobbies">
+        <p>Reading</p>
+        <p>Gaming</p>
+        <p>Coding</p>
+      </Card>
+
+      <button onClick={() => setShowModal(true)}>Open Modal</button>
+
+      {showModal && (
+        <Modal onClose={() => setShowModal(false)}>
+          <h2>Hello from Modal!</h2>
+          <p>This is reusable content inside a modal.</p>
+        </Modal>
+      )}
     </div>
   )
 }
 
 export default App
+
+
+
+
+
+
+// export default App
