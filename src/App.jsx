@@ -1,202 +1,69 @@
-// function Card({ children }) {
-//   return (
-//     <div style={{ border: '2px solid red', padding: '20px' }}>
-//       {children}
-//     </div>
-//   )
-// }
+import { useState, useContext, createContext } from 'react'
 
-// function App() {
-//   return (
-//     <div>
-//       <Card>
-//         <p>I am inside the card!</p>
-//       </Card>
-//     </div>
-//   )
-// }
+const ThemeContext = createContext()
 
 
-// function Card({ title, children }) {
-//   return (
-//     <div style={{ border: '2px solid red', padding: '20px', margin: '10px' }}>
-//       <h3>{title}</h3>
-//       {children}
-//     </div>
-//   )
-// }
+function UserCard() {
+  const { theme } = useContext(ThemeContext)
 
-// function App() {
-//   return (
-//     <div>
-//       <Card title="User Info">
-//         <p>Name: Ashish</p>
-//         <p>Role: Developer</p>
-//       </Card>
-//     </div>
-//   )
-// }
-
-// export default App
-
-
-// function Card({ title, children }) {
-//   return (
-//     <div style={{ border: '2px solid red', padding: '20px', margin: '10px' }}>
-//       <h3>{title}</h3>
-//       {children}
-//     </div>
-//   )
-// }
-
-// function App() {
-//   return (
-//     <div>
-//       <Card title="User Info">
-//         <p>Name: Ashish</p>
-//         <p>Role: Developer</p>
-//       </Card>
-
-//       <Card title="Skills">
-//         <p>React</p>
-//         <p>JavaScript</p>
-//         <p>Node.js</p>
-//       </Card>
-
-//       <Card title="Hobbies">
-//         <p>Reading</p>
-//         <p>Gaming</p>
-//         <p>Coding</p>
-//       </Card>
-//     </div>
-//   )
-// }
-
-// export default App
-
-
-// import { useState } from 'react'
-
-// function Card({ title, children }) {
-//   return (
-//     <div style={{ border: '2px solid red', padding: '20px', margin: '10px' }}>
-//       <h3>{title}</h3>
-//       {children}
-//     </div>
-//   )
-// }
-
-// function App() {
-//   const [showModal, setShowModal] = useState(false)
-
-//   return (
-//     <div>
-//       <Card title="User Info">
-//         <p>Name: Ashish</p>
-//         <p>Role: Developer</p>
-//       </Card>
-
-//       <Card title="Skills">
-//         <p>React</p>
-//         <p>JavaScript</p>
-//         <p>Node.js</p>
-//       </Card>
-
-//       <Card title="Hobbies">
-//         <p>Reading</p>
-//         <p>Gaming</p>
-//         <p>Coding</p>
-//       </Card>
-
-//       <button onClick={() => setShowModal(true)}>Open Modal</button>
-
-//       {showModal && (
-//         <div style={{ background: 'blue', padding: '20px' }}>
-//           <p>I am a modal!</p>
-//           <button onClick={() => setShowModal(false)}>Close</button>
-//         </div>
-//       )}
-//     </div>
-//   )
-// }
-
-// export default App
-
-import { useState } from 'react'
-
-function Card({ title, children }) {
   return (
-    <div style={{ border: '2px solid red', padding: '20px', margin: '10px' }}>
-      <h3>{title}</h3>
-      {children}
+    <div style={{
+      border: theme === "light" ? "2px solid black" : "2px solid white",
+      padding: '20px',
+      marginTop: '20px',
+      borderRadius: '8px'
+    }}>
+      <h3>Ashish Shrivastav</h3>
+      <p>Full Stack Developer</p>
+      <p>Current theme: {theme}</p>
     </div>
   )
 }
 
-function Modal({ children, onClose }) {
+
+
+
+function Navbar() {
+  const { theme, setTheme } = useContext(ThemeContext)
+
   return (
-    <div style={{
-      position: 'fixed',
-      top: 0, left: 0,
-      width: '100%', height: '100%',
-      backgroundColor: 'rgba(0,0,0,0.7)',
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center'
-    }}>
-      <div style={{
-        background: '#16213e',
-        padding: '30px',
-        borderRadius: '10px',
-        minWidth: '300px',
-        color: 'white'
-      }}>
-        {children}
-        <button onClick={onClose}>Close</button>
-      </div>
+    <nav>
+      <p>Current theme: {theme}</p>
+      <button onClick={() => setTheme(theme === "light" ? "dark" : "light")}>
+        Toggle Theme
+      </button>
+    </nav>
+  )
+}
+
+
+
+function Page() {
+  return (
+    <div>
+      <h2>Welcome to the Page</h2>
+      <UserCard />
+      <Navbar />
     </div>
   )
 }
 
 function App() {
-  const [showModal, setShowModal] = useState(false)
+  const [theme, setTheme] = useState("light")
 
   return (
-    <div>
-      <Card title="User Info">
-        <p>Name: Ashish</p>
-        <p>Role: Developer</p>
-      </Card>
-
-      <Card title="Skills">
-        <p>React</p>
-        <p>JavaScript</p>
-        <p>Node.js</p>
-      </Card>
-
-      <Card title="Hobbies">
-        <p>Reading</p>
-        <p>Gaming</p>
-        <p>Coding</p>
-      </Card>
-
-      <button onClick={() => setShowModal(true)}>Open Modal</button>
-
-      {showModal && (
-        <Modal onClose={() => setShowModal(false)}>
-          <h2>Hello from Modal!</h2>
-          <p>This is reusable content inside a modal.</p>
-        </Modal>
-      )}
-    </div>
+    <ThemeContext.Provider value={{ theme, setTheme }}>
+      <div style={{
+        background: theme === "light" ? "#ffffff" : "#1a1a2e",
+        color: theme === "light" ? "#000000" : "#ffffff",
+        minHeight: '100vh',
+        padding: '20px'
+      }}>
+        <h1>My App</h1>
+        <Page />
+      </div>
+    </ThemeContext.Provider>
   )
 }
 
 export default App
-
-
-
-
-
-
-// export default App
