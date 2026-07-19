@@ -1,59 +1,39 @@
-import { Routes, Route, Link } from 'react-router-dom'
-import Home from './Home'
-import About from './About'
-import Contact from './Contact'
+import { useReducer } from 'react'
 
-function Navbar() {
+const initialState = { count: 0 }
+
+function reducer(state, action) {
+  switch (action.type) {
+    case 'INCREMENT':
+      return { count: state.count + 1 }
+    case 'DECREMENT':
+      return { count: state.count - 1 }
+    case 'RESET':
+      return { count: 0 }
+    default:
+      return state
+  }
+}
+
+function Counter() {
+  const [state, dispatch] = useReducer(reducer, initialState)
+
   return (
-    <nav style={{ 
-      display: 'flex', 
-      gap: '20px', 
-      padding: '16px',
-      backgroundColor: '#1a1a2e'
-    }}>
-      <Link to="/" style={{ color: 'white', textDecoration: 'none' }}>Home</Link>
-      <Link to="/about" style={{ color: 'white', textDecoration: 'none' }}>About</Link>
-      <Link to="/contact" style={{ color: 'white', textDecoration: 'none' }}>Contact</Link>
-    </nav>
+    <div>
+      <h2>Count: {state.count}</h2>
+      <button onClick={() => dispatch({ type: 'INCREMENT' })}>+</button>
+      <button onClick={() => dispatch({ type: 'DECREMENT' })}>−</button>
+      <button onClick={() => dispatch({ type: 'RESET' })}>Reset</button>
+    </div>
   )
 }
 
 function App() {
   return (
     <div>
-      <Navbar />
-      <Routes>
-        <Route path="/"
-         element={<Home />
-         } 
-         />
-        <Route path="/about"
-         element={<About 
-         />
-         } 
-         />
-        <Route path="/contact"
-         element={<Contact />
-         } 
-         />
-         <Route path="*"
-          element={<NotFound />
-        } 
-          />
-
-      </Routes>
+      <Counter />
     </div>
   )
 }
-
-function NotFound() {
-  return (
-    <div>
-      <h1>404 - Page Not Found</h1>
-      <p>This page doesn't exist.</p>
-    </div>
-  )
-}
-<Route path="*" element={<NotFound />} />
 
 export default App
