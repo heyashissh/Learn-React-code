@@ -1,37 +1,35 @@
-import { useReducer } from 'react'
+import { useState, memo, useMemo, useCallback } from 'react'
 
-const initialState = { count: 0 }
-
-function reducer(state, action) {
-  switch (action.type) {
-    case 'INCREMENT':
-      return { count: state.count + 1 }
-    case 'DECREMENT':
-      return { count: state.count - 1 }
-    case 'RESET':
-      return { count: 0 }
-    default:
-      return state
-  }
-}
-
-function Counter() {
-  const [state, dispatch] = useReducer(reducer, initialState)
-
+const ExpensiveList = memo(function ExpensiveList({ items, onDelete }) {
+  console.log("ExpensiveList rendered!")
   return (
-    <div>
-      <h2>Count: {state.count}</h2>
-      <button onClick={() => dispatch({ type: 'INCREMENT' })}>+</button>
-      <button onClick={() => dispatch({ type: 'DECREMENT' })}>−</button>
-      <button onClick={() => dispatch({ type: 'RESET' })}>Reset</button>
-    </div>
+    <ul>
+      {items.map(item => (
+        <li key={item}>
+          {item}
+          <button onClick={() => onDelete(item)}>X</button>
+        </li>
+      ))}
+    </ul>
   )
-}
+})
 
 function App() {
+  const [count, setCount] = useState(0)
+
+  const items = useMemo(() => {
+    return ["React", "JavaScript", "Node.js", "CSS"]
+  }, [])
+
+  const handleDelete = useCallback((item) => {
+    console.log("Deleted:", item)
+  }, []) // empty array = same function reference every render
+
   return (
     <div>
-      <Counter />
+      <h2>Count: {count}</h2>
+      <button onClick={() => setCount(count + 1)}>+</button>
+      <ExpensiveList items={items} onDelete={handleDelete} />
     </div>
   )
 }
